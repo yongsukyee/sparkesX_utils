@@ -9,12 +9,12 @@ OUTPUT_DIR = '../outputs/'
 
 def main(fname, plot_inputs = False, plot_predictions=False):
     Path(OUTPUT_DIR).mkdir(parents = True, exist_ok=True)
-
+    
     # Load file
     psrfile = pypsrfits.PSRFITS(DIR + fname)
     
     fout = open(OUTPUT_DIR + FNAME[:-3] + '.out', 'w')
-    fout.write('# subint t0 t1\n')
+    fout.write('frame,label,filename\n')
     
     for nrow in range(psrfile.nrows_file):
         bdata, times, _ = psrfile.getData(nrow, None, get_ft=True, 
@@ -24,8 +24,9 @@ def main(fname, plot_inputs = False, plot_predictions=False):
         # Input bdata: 2d array with dimension [nfrequency, ntime]
         #####
         
-        # Save to output if yes
-        #fout.write(f"{nrow} {times[0]} {times[-1]}\n")
+        # Save output for all frames
+        #ypred = 0 # Prediction: 0 for no event or 1 for event
+        #fout.write(f"{nrow},{ypred},{FNAME[:-3]}\n")
     
     fout.close()
     
